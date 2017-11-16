@@ -162,11 +162,11 @@ class Utility:
         Image.new('RGB', (500, 500), color).save(file, format='PNG')
         if message:
             emb.description = f"""
-            Your presence has been changed. 'Game': {message}\n
-            NOTICE: due to recent Discord API changes, this command is on revision.
-            Available feature is to change Playing message for the time being.
-            Please use your client's own feature to change between online, idle, dnd, or invisible.
-            Thanks for your understanding.
+Your presence has been changed. 'Game': {message}\n
+NOTICE: due to recent Discord API changes, this command is on revision.
+Available feature is to change Playing message for the time being.
+Please use your client's own feature to change between online, idle, dnd, or invisible.
+Thanks for your understanding.
             """
         else:
             emb.description = f"Your presence has been changed"
@@ -1056,6 +1056,8 @@ class Utility:
         '''Create a custom command! Include `{pycc}` in the content to specify a pycc!'''
         git = self.bot.get_cog('Git')
         if not await git.starred('verixx/selfbot.py'): return await ctx.send('**This command is disabled as the user have not starred <https://github.com/verixx/selfbot.py>**')
+        if discord.utils.get(bot.commands, name=name) != None:
+            return await ctx.send('This is already an existing command.')
         with open('data/cc.json') as f:
             commands = json.load(f)
         try:

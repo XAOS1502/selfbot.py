@@ -157,8 +157,15 @@ class Misc:
         
     @commands.command()
     async def gif(self, ctx, *, tag):
-        ''' Get a random gif. Usage: gif <tag> '''
+        ''' Get a random gif. Usage: gif <tag> 
+        this command is sfw, to use nsfw gifs
+        load community.nsfw '''
         g = safygiphy.Giphy()
+        tag = tag.lower()
+        with open('data/nsfw.json')as f:
+            nsfwgif = json.load(f)
+        if tag in nsfwgif:
+            return await ctx.send('`Please use the nsfw commands to see content like this.`', delete_after=5)
         gif = g.random(tag=tag)
         color = await ctx.get_dominant_color(ctx.author.avatar_url)
         em = discord.Embed(color=color)
